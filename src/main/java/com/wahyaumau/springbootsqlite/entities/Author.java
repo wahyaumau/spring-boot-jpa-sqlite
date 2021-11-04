@@ -1,5 +1,6 @@
 package com.wahyaumau.springbootsqlite.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "authors")
@@ -18,6 +21,10 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
+
+    @OneToMany(mappedBy = "author")
+    @JsonIgnoreProperties(value = {"author", "author_id"})
+    List<Book> books = new ArrayList<>();
 
     @Column(name = "created_at", updatable = false, nullable = false)
     @JsonProperty("created_at")
